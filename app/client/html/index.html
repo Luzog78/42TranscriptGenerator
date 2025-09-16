@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{{env.TITLE}} - Home{% endblock %}
+
+{% block content %}
+<div class="container index">
+	<h1>Welcome to the 42 Transcript Generator</h1>
+	{% if sess %}
+		<a href="/dashboard">Go to Dashboard</a>
+	{% else %}
+		<a href="https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-3261944867d74aa73b7946e33cebad27b4c371658184dca485236a76b4510664&redirect_uri=http%3A%2F%2F127.0.0.1%3A5000%2Fauth&response_type=code">Login with 42</a>
+	{% endif %}
+</div>
+{% endblock %}

@@ -1,14 +1,280 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %}{{ env.TITLE }}{% endblock %}</title>
+	<link rel="icon" href="/client/img/icon.ico">
+	<link rel="stylesheet" href="/client/css/style.css">
 
-{% block title %}{{env.TITLE}} - Home{% endblock %}
+	<style>
+		:root {
+			--color-bg: #0d1117;
+			--color-surface: #161b22;
+			--color-accent: #3b82f6;
+			--color-accent-hover: #2563eb;
+			--color-text: #e5e7eb;
+			--color-text-muted: #9ca3af;
 
-{% block content %}
-<div class="container index">
-	<h1>Welcome to the 42 Transcript Generator</h1>
-	{% if sess %}
-		<a href="/dashboard">Go to Dashboard</a>
-	{% else %}
-		<a href="https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-3261944867d74aa73b7946e33cebad27b4c371658184dca485236a76b4510664&redirect_uri=http%3A%2F%2F127.0.0.1%3A5000%2Fauth&response_type=code">Login with 42</a>
-	{% endif %}
-</div>
-{% endblock %}
+			--radius: 12px;
+			--transition: 0.25s ease-in-out;
+
+			--font-family: "Inter", system-ui, -apple-system, sans-serif;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			width: 100vw;
+			height: 100vh;
+			margin: 0;
+			padding: 0;
+			background: var(--color-bg);
+			color: var(--color-text);
+			font-family: var(--font-family);
+			display: flex;
+			flex-direction: column;
+		}
+
+		header {
+			background: var(--color-surface);
+			padding: .25rem .5rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-bottom: 1px solid #222;
+		}
+
+		header h1 {
+			font-size: 1.2rem;
+			color: var(--color-text);
+			padding: 1rem 2rem;
+			margin: 0;
+		}
+
+		main {
+			flex: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 2rem;
+		}
+
+		.container {
+			background: var(--color-surface);
+			padding: 2rem;
+			border-radius: var(--radius);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+			max-width: 480px;
+			width: 100%;
+			text-align: center;
+		}
+
+		.container h1 {
+			margin-top: 0;
+			margin-bottom: 1.5rem;
+			color: var(--color-text);
+		}
+
+		.user-card {
+			display: flex;
+			align-items: center;
+			gap: 1rem;
+			text-align: left;
+			margin-bottom: 1.5rem;
+		}
+
+		.user-card img {
+			width: 96px;
+			height: 96px;
+			border-radius: 50%;
+			object-fit: cover;
+			border: 2px solid var(--color-accent);
+		}
+
+		.user-info h2 {
+			margin: 0;
+			font-size: 1.1rem;
+		}
+
+		.user-info p {
+			margin: 0.2rem 0;
+			font-size: 0.9rem;
+			color: var(--color-text-muted);
+		}
+
+		a.button {
+			display: inline-block;
+			background: var(--color-accent);
+			color: white;
+			padding: 0.75rem 1.5rem;
+			border-radius: var(--radius);
+			font-weight: 600;
+			text-decoration: none;
+			transition: background var(--transition);
+		}
+
+		a.button:hover {
+			background: var(--color-accent-hover);
+		}
+
+		.header-user {
+			display: flex;
+			align-items: center;
+			gap: 1.5rem;
+		}
+
+		.header-user img {
+			width: 45px;
+			height: 48px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+
+		.header-user a {
+			color: var(--color-accent);
+			text-decoration: underline;
+			font-weight: normal;
+		}
+
+		.alerts {
+			margin-bottom: 1.5rem;
+		}
+
+		.alert {
+			padding: 1rem 1.25rem;
+			border-radius: var(--radius);
+			margin-bottom: 0.75rem;
+			text-align: left;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 0.95rem;
+		}
+
+		.alert-success {
+			background: rgba(34, 197, 94, 0.15);
+			border: 1px solid var(--color-success);
+			color: var(--color-success);
+		}
+
+		.alert-error {
+			background: rgba(239, 68, 68, 0.15);
+			border: 1px solid var(--color-error);
+			color: var(--color-error);
+		}
+
+		.alert button {
+			background: none;
+			border: none;
+			color: inherit;
+			cursor: pointer;
+			font-size: 1.1rem;
+			margin-left: 1rem;
+		}
+
+		footer {
+			text-align: center;
+			font-size: 0.8rem;
+			color: var(--color-text-muted);
+			padding: 1rem;
+			border-top: 1px solid #222;
+		}
+	</style>
+
+	{% block head %}
+	{% endblock %}
+</head>
+<body>
+	<header>
+		<h1>{{ env.TITLE }}</h1>
+		{% if sess %}
+			<div class="header-user">
+				<img src="{{ sess.pic }}" alt="Profile">
+				<a href="/logout">Logout</a>
+			</div>
+		{% endif %}
+	</header>
+
+	<main>
+		{% block content %}
+			<div class="container index">
+				<div class="alerts" id="alerts">
+					{% if successes or errors %}
+						<script>
+							setTimeout(() => {
+								const alertsContainer = document.getElementById('alerts');
+								if (!alertsContainer)
+									return;
+
+								const success = (msg) => {
+									const alert = document.createElement('div');
+									alert.className = 'alert alert-success';
+									alert.innerHTML = /* html */`
+										<span>${msg}</span>
+										<button onclick="this.parentElement.remove()">×</button>
+									`;
+									alertsContainer.appendChild(alert);
+									setTimeout(() => alert.remove(), 5000);
+								};
+
+								const error = (msg) => {
+									const alert = document.createElement('div');
+									alert.className = 'alert alert-error';
+									alert.innerHTML = /* html */`
+										<span>${msg}</span>
+										<button onclick="this.parentElement.remove()">×</button>
+									`;
+									alertsContainer.appendChild(alert);
+									setTimeout(() => alert.remove(), 10000);
+								};
+
+								{% for s in successes %}
+									success("{{ s.message | safe }}");
+								{% endfor %}
+
+								{% for e in errors %}
+									error("{{ e.message | safe }}");
+								{% endfor %}
+							}, 0);
+						</script>
+					{% endif %}
+				</div>
+
+				{% if sess %}
+					<div class="user-card">
+						<img src="{{ sess.pic }}" alt="Profile picture of {{ sess.first_name }}">
+						<div class="user-info">
+							<h2>{{ sess.first_name }} {{ sess.last_name }}</h2>
+							<p>@{{ sess.login }}</p>
+							<p>{{ sess.grade_title }} — Level {{ sess.level }}</p>
+						</div>
+					</div>
+					<a href="/transcript" class="button">Generate Transcript</a>
+				{% else %}
+					<h1>Welcome to the 42 Transcript Generator</h1>
+					<a href="https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-3261944867d74aa73b7946e33cebad27b4c371658184dca485236a76b4510664&redirect_uri=http%3A%2F%2F127.0.0.1%3A5000%2Fauth&response_type=code" class="button">
+						Login with 42
+					</a>
+				{% endif %}
+			</div>
+		{% endblock %}
+	</main>
+
+	<footer>
+		{% block footer %}
+			<p>&copy; 2025 42 Transcript Generator. All rights reserved. | v{{ env.VERSION }}</p>
+		{% endblock %}
+	</footer>
+
+	<script>
+		console.log("--- Debug Info ---");
+		console.log("Errors: ", {{ errors | tojson | safe }});
+		console.log("Successes: ", {{ successes | tojson | safe }});
+		console.log("------------------");
+	</script>
+	<script src="/client/js/script.js"></script>
+</body>
+</html>

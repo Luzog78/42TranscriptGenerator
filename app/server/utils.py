@@ -9,11 +9,11 @@ from .data import Data
 def strbool(s: str | int | bool | None, strict: bool = False) -> bool | None:
 	"""
 	Convert a string to a boolean value.
-	
+
 	Args:
 		s (str): The string to convert. Accepts 'true', 'false', '1', '0', 'yes', 'no', 'y', 'n', 'on', 'off'.
 		strict (bool): If True, returns None for unrecognized strings. If False, treats unrecognized strings as False.
-	
+
 	Returns:
 		bool: True or False based on the input string or None if strict is True and the string is unrecognized.
 	"""
@@ -33,7 +33,7 @@ def strbool(s: str | int | bool | None, strict: bool = False) -> bool | None:
 def set_default(var: str, value, env: dict | os._Environ | None = None) -> None:
 	"""
 	Set the environment variable `var` to `value` if it is not already set in `env`.
-	
+
 	Args:
 		var (str): The name of the environment variable.
 		value: The value to set if the variable is not already set.
@@ -64,12 +64,12 @@ def get_url(url, *args, **kwargs):
 		- starts with '/', it is treated as an absolute path appended to the base API URL.
 		- starts with '~/', the '~' is removed and it is treated as an local absolute path.
 		- otherwise, it is treated as a local relative path.
-	
+
 	Args:
 		url (str): The base URL or endpoint.
 		*args: Positional arguments to be added as query parameters.
 		**kwargs: Keyword arguments to be added as query parameters.
-	
+
 	Returns:
 		str: The constructed URL with query parameters.
 	"""
@@ -90,7 +90,12 @@ def get_url(url, *args, **kwargs):
 	return url
 
 
-def session_error(error: dict | str | None, message: str | None = None, code: int | None = None) -> dict:
+def session_error(
+		error: dict | str | None,
+		message: str | None = None,
+		code: int | None = None,
+		**kwargs,
+		) -> dict:
 	try:
 		e = error.get('error', error.get('message'))
 		m = error.get('error_description', error.get('description', error.get('text', error.get('message'))))
@@ -135,15 +140,15 @@ def session_error(error: dict | str | None, message: str | None = None, code: in
 
 	if not Data.S_ERRORS in session:
 		session[Data.S_ERRORS] = []
-	session[Data.S_ERRORS].append(obj)
+	session[Data.S_ERRORS].append(kwargs | obj)
 
-	return error if is_dict else obj
+	return kwargs | (error if is_dict else obj)
 
 
-def session_success(message: str) -> None:
+def session_success(message: str, **kwargs) -> None:
 	if not Data.S_SUCCESSES in session:
 		session[Data.S_SUCCESSES] = []
-	session[Data.S_SUCCESSES].append({
+	session[Data.S_SUCCESSES].append(kwargs | {
 		'message': str(message),
 	})
 

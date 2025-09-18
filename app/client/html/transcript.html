@@ -1,0 +1,405 @@
+<!-- Jinja template for 42 transcript -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>42 Transcript</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			font-size: 13px;
+			font-weight: normal;
+			margin: 0;
+			padding: 0;
+		}
+
+		h1 {
+			font-size: 24px;
+			font-weight: bolder;
+			margin: 10px 0 6px 0;
+		}
+
+		h2 {
+			font-size: 16px;
+			font-weight: bolder;
+			margin: 10px 0 6px 0;
+		}
+
+		p {
+			margin: 6px 0;
+		}
+
+		ul {
+			margin: 6px 0;
+		}
+
+		header {
+			display: flex;
+			justify-content: center;
+		}
+
+		header .container {
+			width: 50%;
+			padding: 10px;
+			text-align: center;
+			border: 2px solid #000000;
+			border-radius: 10px;
+		}
+
+		header .logo {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 150px;
+			height: auto;
+		}
+
+		.transcript, .notes, .cc-breakdown {
+			margin-bottom: 20px;
+		}
+
+		.about {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.about > * {
+			width: 48%;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+		}
+
+		.about .school {
+			text-align: left;
+		}
+
+		.about .student {
+			text-align: left;
+		}
+
+		table.transcript-table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		table.transcript-table thead th {
+			border-top: 1px solid #000;
+			padding-top: 10px;
+			text-align: left;
+		}
+
+		table.transcript-table .space {
+			height: 20px;
+		}
+
+		table.transcript-table .title th {
+			background-color: #f2f2f2;
+			text-align: left;
+			padding: 5px 0;
+			border-top: 1px solid #000;
+			border-bottom: 1px solid #000;
+		}
+
+		table.transcript-table .project td {
+			border-bottom: 1px solid #ddd;
+		}
+
+		table.transcript-table .project td:first-child,
+		table.transcript-table .project td:nth-child(2) {
+			padding-left: 20px;
+		}
+
+		table.transcript-table thead th:not(:first-child):not(:nth-child(2)),
+		table.transcript-table .project td:not(:first-child):not(:nth-child(2)) {
+			text-align: right;
+		}
+
+		table.transcript-table.breakdown thead th:last-child,
+		table.transcript-table.breakdown .project td:last-child {
+			text-align: left;
+			padding-left: 20px;
+		}
+
+		table.transcript-table .total td {
+			font-weight: bold;
+			border-top: 2px solid #000;
+		}
+
+		table.transcript-table .total td > * {
+			display: flex;
+			justify-content: center;
+		}
+
+		table.transcript-table .total td > * > * {
+			text-align: center;
+			width: 25%;
+		}
+
+		table.transcript-table .final > * {
+			text-align: left;
+			padding: 0 10px;
+			background-color: #f0f0f0;
+		}
+
+		table.transcript-table .final > *:first-child {
+			text-align: right;
+		}
+
+		footer {
+			font-size: 10px;
+		}
+
+		footer p {
+			margin: 0;
+		}
+
+		footer table {
+			margin-left: 20px;
+		}
+
+		table.notes-table td:first-child {
+			text-align: right;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="container">
+			<h1>Unofficial 42 School Transcript</h1>
+		</div>
+		<img class="logo" src="data:;base64,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" alt="">
+	</header>
+
+	<section class="about">
+		<div class="school">
+			<div class="container">
+				<h2>42 School</h2>
+				<p><strong>Campus - {{ campus.name }}</strong></p>
+				<p>
+					{{ campus.address }}<br>
+					{{ campus.zip }} - {{ campus.city }},<br>
+					{{ campus.country }}<br>
+				</p>
+				<p>
+					<strong>Website:</strong> <a href="{{ campus.website }}">{{ campus.website }}</a><br>
+					<strong>TORN<sup>(1)</sup>:</strong> 11 75 50234 75<br>
+					<strong>Institute RRN<sup>(2)</sup>:</strong> 0755733Z<br>
+				</p>
+			</div>
+		</div>
+		<div class="student">
+			<div class="container">
+				<h2>Student Information</h2>
+				<p>
+					<strong>Last Name:</strong> {{ student.lastName }}<br>
+					<strong>First Name:</strong> {{ student.firstName }}<br>
+					<strong>Student ID:</strong> {{ student.login }}<br>
+					<strong>Email:</strong> {{ student.email }}<br>
+				</p>
+				<p>
+					<strong>Active:</strong> {{ student.active }}<br>
+					<strong>Alumni date:</strong> {{ student.alumniDate }}<br>
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="transcript">
+		<div class="container">
+			<h2>Transcript</h2>
+
+			<table class="transcript-table">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Project Name</th>
+						<th>Base Credits</th>
+						<th>Grade</th>
+						<th>Credits</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="space"></tr>
+
+					<tr class="title"><th colspan="5">Piscine of {{ transcript.piscine.date }}</th></tr>
+					{% if not transcript.piscine.projects %}
+					<tr class="project">
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+					</tr>
+					{% endif %}
+					{% for project in transcript.piscine.projects %}
+					<tr class="project">
+						<td>{{ project.tid }}</td>
+						<td>{{ project.name }}{% if project.hasBonus %}*{% endif %}</td>
+						<td>{{ project.base }}</td>
+						<td>{{ project.mark }}</td>
+						<td>{{ project.credits }}</td>
+					</tr>
+					{% endfor %}
+					<tr class="total"><td colspan="5"><div>
+						<span><strong>Piscine Total Credits:</strong> <em>{{ transcript.piscine.totalCredits }} / {{ transcript.piscine.maxCredits }}</em></span>
+						<span><strong>Piscine GPA:</strong> <em>{{ transcript.piscine.gpa }}</em></span>
+					</div></td></tr>
+
+					<tr class="space"></tr>
+
+					<tr class="title"><th colspan="5">Common Core</th></tr>
+					{% if not transcript.commonCore.projects %}
+					<tr class="project">
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+					</tr>
+					{% endif %}
+					{% for project in transcript.commonCore.projects %}
+					<tr class="project">
+						<td>{{ project.tid }}</td>
+						<td>{{ project.name }}{% if project.hasBonus %}*{% endif %}</td>
+						<td>{{ project.base }}</td>
+						<td>{{ project.mark }}</td>
+						<td>{{ project.credits }}</td>
+					</tr>
+					{% endfor %}
+					<tr class="total"><td colspan="5"><div>
+						<span><strong>Common Core Total Credits:</strong> <em>{{ transcript.commonCore.totalCredits }} / {{ transcript.commonCore.maxCredits }}</em></span>
+						<span><strong>Common Core GPA:</strong> <em>{{ transcript.commonCore.gpa }}</em></span>
+					</div></td></tr>
+
+					<tr class="space"></tr>
+
+					<tr class="title"><th colspan="5">Post-Core</th></tr>
+					{% if not transcript.postCore.projects %}
+					<tr class="project">
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+					</tr>
+					{% endif %}
+					{% for project in transcript.postCore.projects %}
+					<tr class="project">
+						<td>{{ project.tid }}</td>
+						<td>{{ project.name }}{% if project.hasBonus %}*{% endif %}</td>
+						<td>{{ project.base }}</td>
+						<td>{{ project.mark }}</td>
+						<td>{{ project.credits }}</td>
+					</tr>
+					{% endfor %}
+					<tr class="total"><td colspan="5"><div>
+						<span><strong>Post-Core Total Credits:</strong> <em>{{ transcript.postCore.totalCredits }} / {{ transcript.postCore.maxCredits }}</em></span>
+						<span><strong>Post-Core GPA:</strong> <em>{{ transcript.postCore.gpa }}</em></span>
+					</div></td></tr>
+
+					<tr class="space"></tr>
+
+					<tr class="final">
+						<th colspan="3">Total Credits Earned:</th>
+						<th colspan="2"><em>{{ transcript.totalCredits }} / {{ transcript.maxCredits }}</em></th>
+					</tr>
+					<tr class="final">
+						<th colspan="3">Overall Cumulative GPA:</th>
+						<th colspan="2"><em>{{ transcript.gpa }}</em></th>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+	</section>
+
+	<section class="notes">
+		<div class="container">
+			<h2>Additional Notes</h2>
+			<p>
+				Since École 42 does not issue official transcripts, this document has been prepared by a student. <br>
+				The curriculum at 42 is divided into three stages:
+				<ul>
+					<li>The “Piscine” (literally “swimming pool”): the entrance exam, during which students spend one full month completing daily projects and taking weekly exams.</li>
+					<li>The Common Core: based on the same principle, but with five exams (Rank 02 to Rank 06 — there are no 00 or 01) spread across the first two years of study.</li>
+					<li>Post-Core (or Specialization): after completing the final Common Core project, <em>Transcendence</em>, students move on to the last stage before the Master's degree, which involves completing additional projects and undertaking two professional experiences.</li>
+				</ul>
+				After fulfilling all requirements, students appear before a jury, which decides whether to award the diploma.
+			</p>
+		</div>
+	</section>
+
+	{% if breakdown is defined %}
+	<section class="cc-breakdown">
+		<div class="container">
+			<h2>Main Cursus Breakdown</h2>
+			<p>Here is a detailed breakdown of the Common Core and Post Common Core curriculums.</p>
+
+			<table class="transcript-table breakdown">
+				<thead>
+					<tr>
+						<th>Project Name</th>
+						<th>Categories</th>
+						<th>Base Credits</th>
+						<th>Grade</th>
+						<th>Credits</th>
+						<th>Official School Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="space"></tr>
+
+					<tr class="title"><th colspan="6">Cursus Detailed Breakdown</th></tr>
+					{% for project in breakdown.projects %}
+					<tr class="project">
+						<td>{{ project.name }}{% if project.hasBonus %}*{% endif %}</td>
+						<td>{{ project.categories }}</td>
+						<td>{{ project.base }}</td>
+						<td>{{ project.mark }}</td>
+						<td>{{ project.credits }}</td>
+						<td>{{ project.officialDescription }}</td>
+					</tr>
+					{% endfor %}
+					<tr class="total"><td colspan="6"><div>
+						<span><strong>Cursus Total Credits:</strong> <em>{{ breakdown.totalCredits }}</em></span>
+						<span><strong>Cursus Cumulative GPA:</strong> <em>{{ breakdown.gpa }}</em></span>
+					</div></td></tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+	{% endif %}
+
+	<footer>
+		<div class="container">
+			<hr>
+			<table class="notes-table">
+				<tbody>
+					<tr>
+						<td><sup>(1)</sup></td>
+						<td>French Training Organization Registration Number</td>
+					</tr>
+					<tr>
+						<td><sup>(2)</sup></td>
+						<td>Institution Registration Number with the Regional Education Authority (Rectorate)</td>
+					</tr>
+					<tr>
+						<td>(*)</td>
+						<td>Grades are still out of 100, but up to 25 bonus points may be awarded for outstanding work.</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>
+				This is an unofficial transcript generated by <a href="https://github.com/Luzog78/42TranscriptGenerator">Luzog78/42TranscriptGenerator</a>.
+				| It is calculated from real data retrieved from the official 42 Intern API.
+				| Edited on: {{ date }}
+				| v{{ version }}<br>
+				Its purpose is to provide information demonstrating that a student is active, continuously learning, and expanding their experience and skills.<br>
+				Because 42 includes many projects, this transcript lists only the most significant ones, such as the exams, <em>Transcendence</em>, and professional experiences.
+			</p>
+		</div>
+	</footer>
+</body>
+</html>

@@ -3,6 +3,7 @@ import sys
 import codecs
 import json
 import dotenv
+import traceback
 from flask import Flask, redirect
 from flask_session import Session as FlaskSession
 
@@ -74,7 +75,10 @@ def setup_routes(app: Flask):
 
 	@app.errorhandler(Exception)
 	def handle_generic_exception(e=None):
-		session_error('An unexpected error occurred.', f'[{e.__class__.__name__}] {e}', 500)
+		session_error(
+			'An unexpected error occurred.', f'[{e.__class__.__name__}] {e}', 500,
+			**({ 'trace': traceback.format_exc().split('\n') } if Data.DEBUG else {}),
+		)
 		return redirect('/')
 
 	from server.routes import main_bp
@@ -91,7 +95,7 @@ if __name__ == '__main__':
 	setup_session(app)
 	setup_routes(app)
 
-	print(f"[INFO] ENV: {json.dumps(dict(os.environ), indent=4)}")
+	print(f"[INFO] ENV: {json.dumps(dict(os.environ), indent=4, ensure_ascii=False)}")
 	print(f"[INFO] Starting server {os.environ[Data.X_TITLE]} v{os.environ.get(Data.X_VERSION, '?.?')} on port {os.environ[Data.X_PORT]} (debug={Data.DEBUG}; key={app.secret_key})")
 
 	app.run(

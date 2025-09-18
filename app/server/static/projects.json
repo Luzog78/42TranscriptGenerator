@@ -1,0 +1,313 @@
+{
+	"piscine": {
+		"others": [
+			{
+				"id": 612,
+				"name": "C Exam Training",
+				"hasBonus": false,
+				"base": 150,
+				"cursus": [ 4, 6, 13 ]
+			},
+			{
+				"id": 2525,
+				"name": "Challenge 42Québec",
+				"hasBonus": false,
+				"base": 150,
+				"cursus": [ 9, 21, 54 ]
+			}
+		],
+		"exam00": [
+			{
+				"id": 404,
+				"name": "Exam00",
+				"hasBonus": false,
+				"base": 225,
+				"cursus": [ 4, 6, 13 ]
+			},
+			{
+				"id": 1301,
+				"name": "C Piscine Exam 00",
+				"hasBonus": false,
+				"base": 225,
+				"cursus": [ 9, 64, 65 ]
+			}
+		],
+		"exam01": [
+			{
+				"id": 405,
+				"name": "Exam01",
+				"hasBonus": false,
+				"base": 225,
+				"cursus": [ 4, 6, 13 ]
+			},
+			{
+				"id": 1302,
+				"name": "C Piscine Exam 01",
+				"hasBonus": false,
+				"base": 225,
+				"cursus": [ 9, 64, 65 ]
+			}
+		],
+		"exam02": [
+			{
+				"id": 406,
+				"name": "Exam02",
+				"hasBonus": false,
+				"base": 225,
+				"cursus": [ 4, 6, 13 ]
+			},
+			{
+				"id": 1303,
+				"name": "C Piscine Exam 02",
+				"hasBonus": false,
+				"base": 225,
+				"cursus": [ 9, 64, 65 ]
+			}
+		],
+		"final_exam": [
+			{
+				"id": 407,
+				"name": "Exam Final",
+				"hasBonus": false,
+				"base": 375,
+				"cursus": [ 4, 6, 13 ]
+			},
+			{
+				"id": 1304,
+				"name": "C Piscine Final Exam",
+				"hasBonus": false,
+				"base": 375,
+				"cursus": [ 9, 64, 65 ]
+			}
+		]
+	},
+	"commonCore": {
+		"exam02": [
+			{
+				"id": 1320,
+				"name": "Exam Rank 02",
+				"hasBonus": false,
+				"base": 2803,
+				"cursus": [ 21 ]
+			}
+		],
+		"exam03": [
+			{
+				"id": 1321,
+				"name": "Exam Rank 03",
+				"hasBonus": false,
+				"base": 3997,
+				"cursus": [ 21 ]
+			}
+		],
+		"exam04": [
+			{
+				"id": 1322,
+				"name": "Exam Rank 04",
+				"hasBonus": false,
+				"base": 6174,
+				"cursus": [ 21 ]
+			}
+		],
+		"exam05": [
+			{
+				"id": 1323,
+				"name": "Exam Rank 05",
+				"hasBonus": false,
+				"base": 18595,
+				"cursus": [ 21 ]
+			}
+		],
+		"exam06": [
+			{
+				"id": 1324,
+				"name": "Exam Rank 06",
+				"hasBonus": false,
+				"base": 41714,
+				"cursus": [ 21 ]
+			}
+		],
+		"ft_transcendence": [
+			{
+				"id": 1751,
+				"name": "ft_transcendence (OwO)",
+				"hasBonus": false,
+				"base": 24360,
+				"cursus": [ 1 ]
+			},
+			{
+				"id": 1337,
+				"name": "ft_transcendence",
+				"hasBonus": true,
+				"base": 24360,
+				"cursus": [ 10, 21, 53 ]
+			}
+		]
+	},
+	"postCore": {
+		"workI": [
+			{
+				"id": 118,
+				"name": "First Internship",
+				"hasBonus": true,
+				"base": 42000,
+				"cursus": [ 1, 10, 53 ]
+			},
+			{
+				"id": 961,
+				"name": "First-Internship",
+				"hasBonus": true,
+				"base": 42000,
+				"cursus": [ 8 ]
+			},
+			{
+				"id": 1638,
+				"name": "Work Experience I",
+				"hasBonus": true,
+				"base": 42000,
+				"cursus": [ 21, 78 ]
+			}
+		],
+		"workII": [
+			{
+				"id": 212,
+				"name": "Final Internship",
+				"hasBonus": true,
+				"base": 63000,
+				"cursus": [ 1 ]
+			},
+			{
+				"id": 1644,
+				"name": "Work Experience II",
+				"hasBonus": true,
+				"base": 63000,
+				"cursus": [ 21 ]
+			}
+		],
+		"apprenticeship": [
+			{
+				"id": 1873,
+				"name": "Apprentissage 1 an",
+				"hasBonus": true,
+				"base": 109116,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 1857,
+				"name": "Apprentissage 2 ans - 1ère année",
+				"hasBonus": true,
+				"base": 90300,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 1865,
+				"name": "Apprentissage 2 ans - 2ème année",
+				"hasBonus": true,
+				"base": 90300,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 2338,
+				"name": "FR Apprentissage RNCP 6 - 1 an",
+				"hasBonus": true,
+				"base": 90000,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 2339,
+				"name": "FR Apprentissage RNCP 6 - 2 ans",
+				"hasBonus": true,
+				"base": 150000,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 2340,
+				"name": "FR Apprentissage RNCP 7 - 1 an",
+				"hasBonus": true,
+				"base": 150000,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 2341,
+				"name": "FR Apprentissage RNCP 7 - 2 ans",
+				"hasBonus": true,
+				"base": 180000,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 2561,
+				"name": "FR - Alternance - RNCP6 - 1 an",
+				"hasBonus": true,
+				"base": 90000,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 2562,
+				"name": "FR - Alternance - RNCP6 - 2 ans",
+				"hasBonus": true,
+				"base": 150000,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 2563,
+				"name": "FR - Alternance - RNCP7 - 1 an",
+				"hasBonus": true,
+				"base": 150000,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 2564,
+				"name": "FR - Alternance - RNCP7 - 2 ans",
+				"hasBonus": true,
+				"base": 180000,
+				"cursus": [ 21 ]
+			}
+		],
+		"other": [
+			{
+				"id": 1650,
+				"name": "Part Time I",
+				"hasBonus": true,
+				"base": 42000,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 1656,
+				"name": "Part Time II",
+				"hasBonus": true,
+				"base": 42000,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 2239,
+				"name": "Hive Internship",
+				"hasBonus": true,
+				"base": 42000,
+				"cursus": [ 21 ]
+			}
+		],
+		"startup": [
+			{
+				"id": 2245,
+				"name": "Hive Startup Internship",
+				"hasBonus": true,
+				"base": 42000,
+				"cursus": [ 21 ]
+			},
+			{
+				"id": 1055,
+				"name": "Startup-Internship",
+				"hasBonus": true,
+				"base": 42000,
+				"cursus": [ 1 ]
+			},
+			{
+				"id": 1662,
+				"name": "Startup Experience",
+				"hasBonus": true,
+				"base": 42000,
+				"cursus": [ 21 ]
+			}
+		]
+	}
+}

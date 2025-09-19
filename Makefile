@@ -6,12 +6,13 @@
 #    By: luzog78 <luzog78@gmail.com>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/14 11:18:35 by luzog78           #+#    #+#              #
-#    Updated: 2025/09/16 02:49:17 by luzog78          ###   ########.fr        #
+#    Updated: 2025/09/19 01:18:59 by luzog78          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= Forty420
 MAIN		= app/main.py
+WSGI		= app/wsgi.py
 
 PYTHON		= python3
 VENV		= .venv
@@ -50,7 +51,7 @@ $(NAME): $(MAIN) init stop
 		--access-logformat '%(t)s %(p)s %(h)s %(u)s %(s)s %(m)s "%(U)s%(q)s" %(B)s %(M)s "%({Authorization}i)s" "%(f)s" "%(a)s"' \
 		--capture-output \
 		--pythonpath "$$(dirname "$(MAIN)")" \
-		"$$(basename "$(MAIN)" .py):app" \
+		"$$(basename "$(WSGI)" .py):app" \
 		> $(LOGS_MAIN) 2>&1 &
 
 

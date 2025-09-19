@@ -4,6 +4,7 @@ import codecs
 import json
 import dotenv
 import traceback
+from urllib.parse import quote
 from flask import Flask, redirect
 from flask_session import Session as FlaskSession
 
@@ -43,10 +44,15 @@ def setup_env():
 	set_default(Data.X_SECRET_KEY, 'change_me')
 
 	os_assert(Data.X_API_URL)
+	os_assert(Data.X_API_TOKEN_URL)
 	os_assert(Data.X_API_OAUTH_URL)
 	os_assert(Data.X_REDIRECT_URI)
 	os_assert(Data.X_FT_UID)
 	os_assert(Data.X_FT_SECRET)
+
+	os.environ[Data.X_API_OAUTH_URL] = os.environ[Data.X_API_OAUTH_URL] \
+		.replace('$FT_UID', os.environ[Data.X_FT_UID]) \
+		.replace('$REDIRECT_URI', quote(os.environ[Data.X_REDIRECT_URI], safe='$'))
 
 	Data.DEBUG = strbool(os.environ[Data.X_DEBUG])
 
@@ -85,19 +91,20 @@ def setup_routes(app: Flask):
 	app.register_blueprint(main_bp)
 
 
+parse_args()
+setup_env()
+
+app = Flask(__name__, static_folder='client', template_folder='client/html')
+app.secret_key = codecs.decode(os.environ.get(Data.X_SECRET_KEY), 'unicode_escape').encode('latin1')
+
+setup_session(app)
+setup_routes(app)
+
+print(f"[INFO] ENV: {json.dumps(dict(os.environ), indent=4, ensure_ascii=False)}")
+print(f"[INFO] Starting server {os.environ[Data.X_TITLE]} v{os.environ.get(Data.X_VERSION, '?.?')} on port {os.environ[Data.X_PORT]} (debug={Data.DEBUG}; key={app.secret_key})")
+
+
 if __name__ == '__main__':
-	parse_args()
-	setup_env()
-
-	app = Flask(__name__, static_folder='client', template_folder='client/html')
-	app.secret_key = codecs.decode(os.environ.get(Data.X_SECRET_KEY), 'unicode_escape').encode('latin1')
-
-	setup_session(app)
-	setup_routes(app)
-
-	print(f"[INFO] ENV: {json.dumps(dict(os.environ), indent=4, ensure_ascii=False)}")
-	print(f"[INFO] Starting server {os.environ[Data.X_TITLE]} v{os.environ.get(Data.X_VERSION, '?.?')} on port {os.environ[Data.X_PORT]} (debug={Data.DEBUG}; key={app.secret_key})")
-
 	app.run(
 		debug=Data.DEBUG,
 		host='0.0.0.0',

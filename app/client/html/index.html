@@ -228,7 +228,7 @@
 										<button onclick="this.parentElement.remove()">×</button>
 									`;
 									alertsContainer.appendChild(alert);
-									setTimeout(() => alert.remove(), 10000);
+									setTimeout(() => alert.remove(), 15000);
 								};
 
 								{% for s in successes %}
@@ -255,9 +255,18 @@
 					<a href="/transcript" class="button">Generate Transcript</a>
 				{% else %}
 					<h1>Welcome to the 42 Transcript Generator</h1>
-					<a href="https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-3261944867d74aa73b7946e33cebad27b4c371658184dca485236a76b4510664&redirect_uri=http%3A%2F%2F127.0.0.1%3A5000%2Fauth&response_type=code" class="button">
+					<a class="button" id="login-button">
 						Login with 42
 					</a>
+					<script>
+						setTimeout(() => {
+							const loginButton = document.getElementById('login-button');
+							if (!loginButton)
+								return;
+
+							loginButton.href = "{{ env.API_OAUTH_URL | safe }}".replace("$HOST", encodeURIComponent(window.location.origin));
+						}, 0);
+					</script>
 				{% endif %}
 			</div>
 		{% endblock %}

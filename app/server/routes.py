@@ -55,7 +55,7 @@ def auth():
 		return redirect('/')
 
 	code = request.args.get('code')
-	sess = Session(code)
+	sess = Session(code, request.host_url.removesuffix('/'))
 	if not sess['valid']:
 		return redirect('/')
 

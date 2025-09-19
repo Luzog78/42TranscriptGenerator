@@ -3,6 +3,7 @@ import time
 import json
 import requests
 from flask import session
+from urllib.parse import quote
 
 from .data import Data
 from .utils import session_error, session_success
@@ -23,7 +24,7 @@ class Session:
 		# 	session.pop(Data.S_SESSION, None)
 		# return None
 
-	def __new__(self, code: str = None, fetch_token: bool = True):
+	def __new__(self, code: str = None, host: str = None, fetch_token: bool = True):
 		sess = {
 			'code': code,
 			'token': None,
@@ -31,6 +32,7 @@ class Session:
 			'created': None,
 			'expires': None,
 			'valid': False,
+			'host': host,
 		}
 
 		if fetch_token and code is not None:
@@ -53,13 +55,13 @@ class Session:
 		if code is not None:
 			sess['code'] = code
 		res = requests.post(
-			os.environ.get(Data.X_API_OAUTH_URL),
+			os.environ.get(Data.X_API_TOKEN_URL),
 			data={
 				'grant_type': 'authorization_code',
 				'client_id': os.environ.get(Data.X_FT_UID),
 				'client_secret': os.environ.get(Data.X_FT_SECRET),
 				'code': sess.get('code'),
-				'redirect_uri': os.environ.get(Data.X_REDIRECT_URI),
+				'redirect_uri': os.environ.get(Data.X_REDIRECT_URI).replace('$HOST', sess.get('host', '')),
 			},
 		)
 		res = res.json() | {'status_code': res.status_code}
@@ -85,7 +87,7 @@ class Session:
 		if refresh is not None:
 			sess['refresh'] = refresh
 		res = requests.post(
-			os.environ.get(Data.X_API_OAUTH_URL),
+			os.environ.get(Data.X_API_TOKEN_URL),
 			data={
 				'grant_type': 'refresh_token',
 				'client_id': os.environ.get(Data.X_FT_UID),
